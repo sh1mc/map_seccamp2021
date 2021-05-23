@@ -69,7 +69,7 @@ buffer_length is the size of *str.
 ------------------------------------------ */
 void map_print(char *str, int buffer_length, Node *node) {
 	if (node->children[(int)'\0'] != NULL) {
-		printf("%s\n", str);
+		printf("%s:\t%d\n", str, node->children[(int)'\0']->value);
 	}
 	for (int i = 0; i < CHILDREN_SIZE; i++) {
 		if (node->children[i] != NULL) {

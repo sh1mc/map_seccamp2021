@@ -20,6 +20,7 @@ void delete_node(Node *node);
 void map_put(char *str, int value, Node *node);
 Node *map_find(char *str, Node *node);
 int map_remove(char *str, Node *node);
+int map_get(char *str, Node *node);
 void map_print(char *str, int buffer_length, Node *node);
 
 #endif
