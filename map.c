@@ -4,7 +4,7 @@
 Node *new_node() {
 	Node *node = (Node *)malloc(sizeof(Node));
 	if (node == NULL) {
-		fprintf(stderr, "Memory Allocation Failed.\n");
+		fprintf(stderr, "Memory allocation failed.\n");
 		exit(EXIT_FAILURE);
 	}
 	init_node(node);
@@ -61,4 +61,26 @@ int map_remove(char *str, Node *node) {
 		return 0;
 	}
 	return map_remove(str + 1, node->children[(int)str[0]]);
+}
+
+/* ------------------------------------------
+*str needs to be longer than the longest key. 
+buffer_length is the size of *str.
+------------------------------------------ */
+void map_print(char *str, int buffer_length, Node *node) {
+	if (node->children[(int)'\0'] != NULL) {
+		printf("%s\n", str);
+	}
+	for (int i = 0; i < CHILDREN_SIZE; i++) {
+		if (node->children[i] != NULL) {
+			char *cpy_buffer = (char *)malloc(sizeof(char) * buffer_length);
+			if (cpy_buffer == NULL) {
+				fprintf(stderr, "Memory allocation failed.\n");
+			}
+			strncpy(cpy_buffer, str, buffer_length);
+			snprintf(cpy_buffer, buffer_length, "%s%c", str, (char)i);
+			map_print(cpy_buffer, buffer_length, node->children[i]);
+			free(cpy_buffer);
+		}
+	}
 }
