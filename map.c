@@ -48,22 +48,17 @@ Node *map_find(char *str, Node *node) {
 	if (str[0] == '\0') {
 		return node->children[(int)str[0]];
 	}
-	return (map_find(str + 1, node->children[(int)str[0]]));
+	return map_find(str + 1, node->children[(int)str[0]]);
 }
 
 int map_remove(char *str, Node *node) {
-	char *parent_str = (char *)malloc(sizeof(char) * strlen(str));
-	strncpy(parent_str, str, strlen(str) - 1);
-	Node *parent_node_del = map_find(parent_str, node);
-	if (parent_node_del == NULL) {
+	if (node->children[(int)str[0]] == NULL) {
 		return -1;
 	}
-	Node *node_del = parent_node_del->children[(int)str[strlen(str) - 1]];
-	if (node_del == NULL) {
-		return -1;
+	if (str[0] == '\0') {
+		free(node->children[(int)str[0]]);
+		node->children[(int)str[0]] = NULL;
+		return 0;
 	}
-	parent_node_del->children[(int)str[strlen(str) - 1]] = NULL;
-	delete_node(node_del);
-	free(parent_str);
-	return 0;
+	return map_remove(str + 1, node->children[(int)str[0]]);
 }
